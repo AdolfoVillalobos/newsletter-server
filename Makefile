@@ -1,5 +1,5 @@
 run:
-	uv run fastapi dev main.py
+	uv run fastapi dev src/main.py
 
 install:
 	uv sync --no-frozen
