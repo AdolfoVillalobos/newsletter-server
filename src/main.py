@@ -65,8 +65,8 @@ def create_subscriber(subscriber: EmailSubscription):
     """Subscribe to the newsletter."""
     logger.info('Creating subscriber: %s', subscriber)
     payload = subscriber.model_dump(by_alias=True, exclude=['id'])
-    new_subscriber = subscriber_collection.insert_one(payload)
-    created_subscriber = subscriber_collection.find_one({'_id': new_subscriber.inserted_id})
+    new_subscriber = subscriber_collection.update_one(payload, {'$set': payload}, upsert=True)
+    created_subscriber = subscriber_collection.find_one({'_id': new_subscriber.upserted_id})
 
     logger.info('New subscriber: %s', created_subscriber)
     return created_subscriber
